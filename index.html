@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>智能交互产品原型 | ZJU Design Demo</title>
+    <style>
+        /* 1. 工业设计风格美化 (CSS) */
+        body {
+            font-family: -apple-system, "Helvetica Neue", sans-serif;
+            background-color: #f5f5f7;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+        }
+        .container {
+            background: white; padding: 40px; border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            width: 350px; text-align: center;
+        }
+        h1 { font-size: 20px; color: #1d1d1f; margin-bottom: 10px; }
+        p { font-size: 14px; color: #86868b; margin-bottom: 30px; }
+        
+        /* 模拟按钮 */
+        #action-btn {
+            background: #0071e3; color: white; border: none;
+            padding: 12px 24px; border-radius: 12px;
+            font-size: 16px; cursor: pointer; transition: all 0.3s;
+        }
+        #action-btn:hover { background: #0077ed; transform: scale(1.05); }
+
+        /* 加载动画 */
+        #loader {
+            display: none; border: 3px solid #f3f3f3; border-top: 3px solid #0071e3;
+            border-radius: 50%; width: 24px; height: 24px;
+            animation: spin 1s linear infinite; margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* AI 建议显示区 */
+        #ai-box {
+            margin-top: 20px; padding: 15px; background: #fbfbfd;
+            border-radius: 12px; font-size: 14px; color: #424245;
+            text-align: left; line-height: 1.6; display: none;
+            border-left: 4px solid #0071e3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>智能呼吸灯控制</h1>
+        <p>基于用户距离 $d$ 的自适应交互原型</p>
+        
+        <button id="action-btn" onclick="startAI()">开始诊断设计</button>
+        
+        <div id="loader"></div>
+        <div id="ai-box"></div>
+    </div>
+
+    <script>
+        // 2. 模拟 API 交互逻辑 (JavaScript)
+        function startAI() {
+            const btn = document.getElementById('action-btn');
+            const loader = document.getElementById('loader');
+            const box = document.getElementById('ai-box');
+
+            // 初始状态
+            btn.style.display = 'none';
+            loader.style.display = 'block';
+            box.style.display = 'none';
+
+            // 模拟 API 请求延迟 (2秒)
+            setTimeout(() => {
+                loader.style.display = 'none';
+                box.style.display = 'block';
+                
+                const message = "【通义千问 AI 诊断报告】\n\n1. 检测到当前距离参数 $d < 50cm$。\n2. 建议启动“温暖模式”渐变动画。\n3. 当前色彩对比度符合 WCAG AA 标准，交互逻辑清晰。";
+                
+                // 逐字显示效果
+                let i = 0;
+                box.innerHTML = "";
+                function typing() {
+                    if (i < message.length) {
+                        box.innerHTML += message.charAt(i) === "\n" ? "<br>" : message.charAt(i);
+                        i++;
+                        setTimeout(typing, 50); // 控制打字速度
+                    }
+                }
+                typing();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
